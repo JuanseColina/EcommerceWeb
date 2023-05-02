@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @* @Scripts.Render("~/bundles/modernizr") *@
 </head>
-<body> class="sb-nav-fixed">
+<body> 
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.html">Mi Tienda</a>
@@ -97,9 +97,8 @@
 @* <li>@Html.ActionLink("Home", "Index", "Home")</li> *@
 @*                 <li>@Html.ActionLink("About", "About", "Home")</li> *@
 @*                 <li>@Html.ActionLink("Contact", "Contact", "Home")</li> *@
-
-@Scripts.Render("~/bundles/complementos")
 @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/complementos")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
 </body>

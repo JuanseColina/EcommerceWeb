@@ -1,8 +1,124 @@
 @model dynamic
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @{
     ViewBag.Title = "Usuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Usuarios</h2>
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item">
+        <a href="index.html">Resumen</a>
+    </li>
+    <li class="breadcrumb-item active">Usuarios</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>Lista de Usuarios
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal()">Crear Nuevo</button>
+            </div>
+        </div>
+        <hr/>
+        <table id="tabla" class="display cell-border" style="width: 100%">
+            <thead>
+            <tr>
+              
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Activo</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+            <div class="row">
+                
+                <div class="col-sm-6">
+                    <label for="exampleFormControlInput1" class="form-label">Nombres</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                </div>
+                <div class="col-sm-6">
+                    <label for="exampleFormControlInput1" class="form-label">Apellidos</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                </div>
+                
+                <div class="col-sm-6">
+                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    </div>
+                
+                
+            </div>
+
+            </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@* ReSharper disable once Razor.SectionNotResolved *@
+@section scripts {
+    <script>
+    
+        var tabladata;
+        
+        
+        
+        console.log(jQuery)
+        tabladata = $("#tabla").DataTable({
+            responsive : true,
+            ordering: true,
+            "ajax": {
+                "url": '@Url.Action("ListarUsuarios", "Home")',
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Nombres" },
+                { "data": "Apellidos" },
+                { "data": "Correo" },
+                { "data": "Activo", "render":function(value) {
+                    return value ? '<span class="badge bg-success">Si</span>'  : '<span class="badge bg-danger">No</span>';
+                } },
+                {
+                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i></button>' + 
+                    '<button type="button" class="btn btn-danger btn-sm ms-2"><i class="fas fa-trash"></i></button>',
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "90px"
+                }
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+            },    
+        });
+        
+        function abrirModal() {
+            $("#FormModal").modal("show");
+        }
+    </script>
+}

@@ -48,7 +48,6 @@ namespace CapaDatos
                 throw;
             }
             
-            
             return lista;
         }
     }
