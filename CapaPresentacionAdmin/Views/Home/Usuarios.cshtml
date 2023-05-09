@@ -20,7 +20,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-success" onclick="abrirModal()">Crear Nuevo</button>
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Crear Nuevo</button>
             </div>
         </div>
         <hr/>
@@ -42,39 +42,49 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-dark text-white">
         <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
       </div>
-        <div class="modal-body">
+        <div class="modal-body g-2">
+            
+            <input id="txtid" type="hidden" value="0"></input>
             <div class="row">
-                
+
                 <div class="col-sm-6">
-                    <label for="exampleFormControlInput1" class="form-label">Nombres</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    <label for="txtnombres" class="form-label">Nombres</label>
+                    <input type="text" class="form-control" id="texnombres">
                 </div>
+
                 <div class="col-sm-6">
-                    <label for="exampleFormControlInput1" class="form-label">Apellidos</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    <label for="txtapellidos" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="txtapellidos">
                 </div>
-                
+
                 <div class="col-sm-6">
-                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                    </div>
-                
-                
-            </div>
+
+                    <label for="txtcorreo" class="form-label">Email address</label>
+                    <input type="text" class="form-control" id="txtcorreo">
+                </div>
+
+                <div class="col-sm-6">
+
+                    <label for="cboactivo" class="form-label">Activo</label>
+                    <select id="cboactivo"class="form-select" aria-label="Default select example">
+                        <option value="1">Si</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
 
             </div>
+
+        </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
@@ -105,7 +115,7 @@
                     return value ? '<span class="badge bg-success">Si</span>'  : '<span class="badge bg-danger">No</span>';
                 } },
                 {
-                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i></button>' + 
+                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' + 
                     '<button type="button" class="btn btn-danger btn-sm ms-2"><i class="fas fa-trash"></i></button>',
                     "orderable": false,
                     "searchable": false,
@@ -117,8 +127,34 @@
             },    
         });
         
-        function abrirModal() {
-            $("#FormModal").modal("show");
+        function abrirModal(json) {
+            $("#txtid").val(0);
+            $("#txtapellidos").val("");
+            $("#txtcorreo").val("");
+            $("#cboactivo").val(1); //operador ternario
+            
+            if(json != null){
+                $("#texnombres").val(json.Nombres);
+                $("#txtapellidos").val(json.Apellidos);
+                $("#txtcorreo").val(json.Correo);
+                $("#cboactivo").val(json.Activo ? 1 : 0); //operador ternario
+            }
+            
+            $("#FormModal").modal("show");//abrir modal
         }
+        
+        $("#tabla tbody").on("click", '.btn-editar', function (){
+            var filaSeleccionada = $(this).closest("tr");
+            
+            var data = tabladata.row(filaSeleccionada).data(); //obtener datos de la fila seleccionada
+            
+            abrirModal(data)
+            
+        })
+        
+        
+        
+        
+
     </script>
 }
